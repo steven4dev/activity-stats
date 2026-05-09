@@ -246,7 +246,7 @@ async function loadData() {
   try {
     const res  = await fetch(URL);
     const text = await res.text();
-    const json = JSON.parse(text.replace(/^.*?setResponse\(/, '').replace(/\);?\s*$/, ''));
+    const json = JSON.parse(text.replace(/^[\s\S]*?setResponse\(/, '').replace(/\);?\s*$/, ''));
     const rows = json.table.rows;
 
     allRows = rows.map((r, idx) => {

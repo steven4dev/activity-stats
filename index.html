@@ -331,7 +331,7 @@ function renderMeals() {
       counts[rawVal] = (counts[rawVal] || 0) + 1;
     });
     const portionTotal = allRows.reduce((s,r) => s + r[m.key], 0);
-    const opts = ['無','1份','2份'];
+    const opts = ['1份','2份'];
     const maxC = Math.max(...opts.map(o => counts[o]||0), 1);
     return `<div class="meal-card">
       <div class="meal-name" style="color:${m.color}">🍱 ${m.name}</div>

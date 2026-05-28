@@ -350,18 +350,18 @@ function renderMeals() {
   document.getElementById('m-free').textContent = freePpl;
   document.getElementById('m-paid-portions').textContent = paidPortions;
   document.getElementById('m-paid-amount').textContent = (paidPortions * 70).toLocaleString();
-  document.getElementById('m-total-amount').textContent = (totalPortions * 70).toLocaleString();
+  document.getElementById('m-total-amount').textContent = (totalPortions * 80).toLocaleString();
 
   // 各口味費用明細
   const mealCosts = mealDefs.map(m => {
     const portions = allRows.reduce((s, r) => s + r[m.key], 0);
-    return { name: m.name, color: m.color, portions, amount: portions * 70 };
+    return { name: m.name, color: m.color, portions, amount: portions * 80 };
   });
   document.getElementById('meal-cost-grid').innerHTML = mealCosts.map(mc =>
     `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
       <div>
         <div style="font-size:.85rem;font-weight:700;color:${mc.color}">🍱 ${mc.name}</div>
-        <div style="font-size:.75rem;color:var(--sub);margin-top:3px">${mc.portions} 份 × 70元</div>
+        <div style="font-size:.75rem;color:var(--sub);margin-top:3px">${mc.portions} 份 × 80元</div>
       </div>
       <div style="font-size:1.2rem;font-weight:800;color:${mc.color}">${mc.amount.toLocaleString()} <span style="font-size:.7rem;font-weight:400">元</span></div>
     </div>`

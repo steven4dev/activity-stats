@@ -374,11 +374,13 @@ function identityTag(id) {
 }
 
 function renderTable(rows) {
+  const nameCounts = {};
+  allRows.forEach(r => nameCounts[r.name] = (nameCounts[r.name] || 0) + 1);
   const tbody = document.getElementById('tbl-body');
   tbody.innerHTML = rows.map(r =>
     `<tr>
       <td style="color:var(--dim)">${r.idx}</td>
-      <td style="font-weight:600">${r.name}</td>
+      <td style="${nameCounts[r.name] >= 2 ? 'color:#ef4444;font-weight:700' : 'font-weight:600'}">${r.name}</td>
       <td>${identityTag(r.identity)}</td>
       <td style="color:var(--sub)">${r.introducer || '—'}</td>
       <td>${r.rawG === '無' ? '<span class="tag-無">無</span>' : r.rawG}</td>

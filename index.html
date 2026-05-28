@@ -105,6 +105,8 @@
   .tag-無        { color: var(--dim); font-size: .78rem; }
   .tag-paid      { background: rgba(245,158,11,.15); color: var(--amber);
     font-size:.72rem; font-weight:700; padding: 1px 6px; border-radius:8px; }
+  input[type=checkbox] { accent-color: var(--green); cursor: pointer; width: 15px; height: 15px; }
+  tr.row-checked td { background: rgba(34,197,94,.12) !important; }
 
   /* Loading */
   #loading { text-align: center; padding: 80px; color: var(--sub); font-size: 1.1rem; }
@@ -215,6 +217,7 @@
         <table>
           <thead>
             <tr>
+              <th style="width:40px;text-align:center"><input type="checkbox" id="chk-all" title="全選/取消全選" onchange="toggleAll(this)"></th>
               <th>#</th>
               <th>姓名</th>
               <th>身分</th>
@@ -379,6 +382,7 @@ function renderTable(rows) {
   const tbody = document.getElementById('tbl-body');
   tbody.innerHTML = rows.map(r =>
     `<tr>
+      <td style="text-align:center"><input type="checkbox" class="row-chk" onchange="toggleRow(this)"></td>
       <td style="color:var(--dim)">${r.idx}</td>
       <td style="${nameCounts[r.name] >= 2 ? 'color:#ef4444;font-weight:700' : 'font-weight:600'}">${r.name}</td>
       <td>${identityTag(r.identity)}</td>
@@ -391,6 +395,25 @@ function renderTable(rows) {
     </tr>`
   ).join('');
   document.getElementById('tbl-count').textContent = `顯示 ${rows.length} / ${allRows.length} 筆`;
+  const chkAll = document.getElementById('chk-all');
+  chkAll.checked = false;
+  chkAll.indeterminate = false;
+}
+
+function toggleRow(chk) {
+  chk.closest('tr').classList.toggle('row-checked', chk.checked);
+  const all = document.querySelectorAll('.row-chk');
+  const checked = document.querySelectorAll('.row-chk:checked');
+  const chkAll = document.getElementById('chk-all');
+  chkAll.checked = all.length > 0 && checked.length === all.length;
+  chkAll.indeterminate = checked.length > 0 && checked.length < all.length;
+}
+
+function toggleAll(chk) {
+  document.querySelectorAll('.row-chk').forEach(c => {
+    c.checked = chk.checked;
+    c.closest('tr').classList.toggle('row-checked', chk.checked);
+  });
 }
 
 function filterTable() {

@@ -26,6 +26,9 @@
   .badge-live { background: var(--green); color: #fff; font-size: .7rem;
     font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: .5px; }
   .last-update { font-size: .75rem; color: var(--dim); margin-top: 4px; }
+  .clock { font-size: 1.6rem; font-weight: 700; color: #bfdbfe; letter-spacing: .08em;
+    font-variant-numeric: tabular-nums; text-align: right; line-height: 1; }
+  .clock-label { font-size: .7rem; color: var(--dim); text-align: right; margin-bottom: 6px; }
 
   /* Main */
   .main { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
@@ -121,7 +124,11 @@
     <p>資料來源：Google 試算表（每次開啟自動更新）</p>
     <div class="last-update" id="lastUpdate">載入中…</div>
   </div>
-  <span class="badge-live">LIVE</span>
+  <div style="text-align:right">
+    <div class="clock-label">目前時間</div>
+    <div class="clock" id="clock">--:--:--</div>
+    <div style="margin-top:8px"><span class="badge-live">LIVE</span></div>
+  </div>
 </div>
 
 <div class="main">
@@ -238,6 +245,13 @@
 </div>
 
 <script>
+(function updateClock() {
+  const el = document.getElementById('clock');
+  const now = new Date();
+  el.textContent = now.toLocaleTimeString('zh-TW', { hour12: false });
+  setTimeout(updateClock, 1000 - now.getMilliseconds());
+})();
+
 const SHEET_ID = '1ePjody_xNLAvfMMCecS25fYWXEYMr-Y5IflLM1Fk5O8';
 const GID      = '627299729';
 const URL      = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${GID}`;
